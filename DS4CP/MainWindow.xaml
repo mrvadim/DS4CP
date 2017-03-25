@@ -6,10 +6,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DS4CP"
         mc:Ignorable="d"
+        Closing="Window_Closing"
+        Closed="Window_Closed"
         Title="DS4 Control Panel" 
         WindowStartupLocation="CenterScreen"
-        ResizeMode="NoResize" Height="350"
-        Width="700" ShowInTaskbar="False" Icon="Resources/app.ico" >
+        ResizeMode="CanMinimize" 
+        Height="350"
+        Width="700" 
+        ShowInTaskbar="False" 
+        Icon="Resources/app.ico" >
 
     <Grid>
         <Grid.RowDefinitions>
@@ -112,8 +117,8 @@
         <tb:TaskbarIcon x:Name="MyNotifyIcon" IconSource="Resources/app.ico" ToolTipText="DS4">
             <tb:TaskbarIcon.ContextMenu>
                 <ContextMenu Background="White">
-                    <MenuItem Header="Open" />
-                    <MenuItem Header="Exit" />
+                    <MenuItem Header="Open" Click="MenuItem_Open_Click" />
+                    <MenuItem Header="Exit" Click="MenuItem_Exit_Click" />
                 </ContextMenu>
             </tb:TaskbarIcon.ContextMenu>
         </tb:TaskbarIcon>

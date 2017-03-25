@@ -90,20 +90,47 @@ namespace DS4CP
 
         private void ShowStandardBalloon(string text)
         {
-            string title = "Info";
+            string title = "DS4 Control Panel";
             
 
             //show balloon with built-in icon
             MyNotifyIcon.ShowBalloonTip(title, text, BalloonIcon.Info);
-            MyNotifyIcon.ShowBalloonTip(title, text, BalloonIcon.Warning);
-            MyNotifyIcon.ShowBalloonTip(title, text, BalloonIcon.Error);
-
-            //show balloon with custom icon
-            //MyNotifyIcon.ShowBalloonTip(title, text, MyNotifyIcon.Icon);
-
+            //MyNotifyIcon.ShowBalloonTip(title, text, BalloonIcon.Warning);
+            //MyNotifyIcon.ShowBalloonTip(title, text, BalloonIcon.Error);
 
             //hide balloon
             //MyNotifyIcon.HideBalloonTip();
+
+        }
+
+        private void MenuItem_Open_Click(object sender, RoutedEventArgs e)
+        {
+            //ShowStandardBalloon("open");
+            if (WindowState == WindowState.Minimized) Show();
+            WindowState = WindowState.Normal;
+        }
+
+        private void MenuItem_Exit_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            //WindowState = WindowState.Minimized;
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = true;
+            WindowState = WindowState.Minimized;
+            Hide();
+        }
+
+        protected override void OnStateChanged(EventArgs e)
+        {
+            Console.WriteLine("OnStateChanged");
+            if (WindowState == WindowState.Minimized) Hide();
 
         }
     }
