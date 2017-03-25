@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Configuration;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace DS4CP
@@ -105,7 +106,6 @@ namespace DS4CP
 
         private void MenuItem_Open_Click(object sender, RoutedEventArgs e)
         {
-            //ShowStandardBalloon("open");
             if (WindowState == WindowState.Minimized) Show();
             WindowState = WindowState.Normal;
         }
@@ -117,7 +117,7 @@ namespace DS4CP
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            //WindowState = WindowState.Minimized;
+            WindowState = WindowState.Minimized;
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -133,5 +133,27 @@ namespace DS4CP
             if (WindowState == WindowState.Minimized) Hide();
 
         }
+
+        
+
     }
+
+
+    public class ShowMessageCommand : ICommand
+    {
+        public void Execute(object parameter)
+        {
+            Application.Current.MainWindow.Show();
+            Application.Current.MainWindow.WindowState = WindowState.Normal;
+        }
+
+        public bool CanExecute(object parameter)
+        {
+            return true;
+        }
+
+        public event EventHandler CanExecuteChanged;
+    }
+
+
 }

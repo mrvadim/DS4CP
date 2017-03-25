@@ -17,6 +17,9 @@
         Icon="Resources/app.ico" >
 
     <Grid>
+        <Grid.Resources>
+            <local:ShowMessageCommand x:Key="ShowWindow"/>
+        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="7*"/>
             <RowDefinition Height="1*"/>
@@ -114,7 +117,9 @@
         <Label Content="LOG" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="1"/>
 
 
-        <tb:TaskbarIcon x:Name="MyNotifyIcon" IconSource="Resources/app.ico" ToolTipText="DS4">
+        
+        
+        <tb:TaskbarIcon x:Name="MyNotifyIcon" IconSource="Resources/app.ico" ToolTipText="DS4" DoubleClickCommand="{StaticResource ShowWindow}">
             <tb:TaskbarIcon.ContextMenu>
                 <ContextMenu Background="White">
                     <MenuItem Header="Open" Click="MenuItem_Open_Click" />
