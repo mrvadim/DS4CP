@@ -1,4 +1,5 @@
 ﻿using DS4CP.Classes;
+using Hardcodet.Wpf.TaskbarNotification;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,11 +17,14 @@ namespace DS4CP
         public string message;
         List<string> mProfiles = new List<string>();
         Controllers ctrl = new Controllers();
+        //private TaskbarIcon tb;
 
         public MainWindow()
         {
             InitializeComponent();
             DataContext = this;
+
+            //tb = (TaskbarIcon)FindResource("/Resources/NotifyIcon");
 
             MProfiles.Add("DEFAULT");
             MProfiles.Add("NEW");
@@ -80,6 +84,26 @@ namespace DS4CP
         {
             ctrl.Id = "ma:c1:23:45:67:89";
             ctrl.Status = "disconnected";
+            ShowStandardBalloon("hello");
+
+        }
+
+        private void ShowStandardBalloon(string text)
+        {
+            string title = "Info";
+            
+
+            //show balloon with built-in icon
+            MyNotifyIcon.ShowBalloonTip(title, text, BalloonIcon.Info);
+            MyNotifyIcon.ShowBalloonTip(title, text, BalloonIcon.Warning);
+            MyNotifyIcon.ShowBalloonTip(title, text, BalloonIcon.Error);
+
+            //show balloon with custom icon
+            //MyNotifyIcon.ShowBalloonTip(title, text, MyNotifyIcon.Icon);
+
+
+            //hide balloon
+            //MyNotifyIcon.HideBalloonTip();
 
         }
     }
