@@ -27,7 +27,7 @@ namespace DS4CP
 
             ctrl.Id = "00:00:00:00:00:00";
             ctrl.Status = "CONNECTED";
-            ctrl.Battery = 80;
+            ctrl.Battery = 90;
             ctrl.Color = Brushes.Aqua;
             ctrl.Profile = MProfiles;
 
