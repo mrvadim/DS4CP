@@ -53,7 +53,7 @@
     <ApplicationIcon>Resources\app.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>04A7C666F189AF8E7D1D1617F9B666D6C9D1BD24</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>8442A1C512B64942C707AB75F5A351E8BAD94458</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestKeyFile>DS4CP_TemporaryKey.pfx</ManifestKeyFile>
@@ -67,6 +67,7 @@
   <ItemGroup>
     <Reference Include="Hardcodet.Wpf.TaskbarNotification, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Hardcodet.NotifyIcon.Wpf.1.0.8\lib\net451\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />

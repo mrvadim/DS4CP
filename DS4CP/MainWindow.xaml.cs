@@ -52,7 +52,14 @@ namespace DS4CP
             get { return message; }
         }
 
-        public List<string> MProfiles { get => mProfiles; set => mProfiles = value; }
+        public List<string> MProfiles
+        {
+            get { return mProfiles; }
+            set
+            {
+                mProfiles = value;
+            }
+        }
 
         public void ReadSettings()
         {

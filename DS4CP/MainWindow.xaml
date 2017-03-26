@@ -18,7 +18,7 @@
 
     <Grid>
         <Grid.Resources>
-            <local:ShowMessageCommand x:Key="ShowWindow"/>
+            <local:ShowMessageCommand x:Key="ShowWindow"></local:ShowMessageCommand>
         </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="7*"/>
@@ -116,14 +116,11 @@
         </TabControl>
         <Label Content="LOG" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="1"/>
 
-
-        
-        
-        <tb:TaskbarIcon x:Name="MyNotifyIcon" IconSource="Resources/app.ico" ToolTipText="DS4" DoubleClickCommand="{StaticResource ShowWindow}">
+        <tb:TaskbarIcon x:Name="MyNotifyIcon" IconSource="resources/app.ico" ToolTip="ds4" DoubleClickCommand="{StaticResource ShowWindow}">
             <tb:TaskbarIcon.ContextMenu>
-                <ContextMenu Background="White">
-                    <MenuItem Header="Open" Click="MenuItem_Open_Click" />
-                    <MenuItem Header="Exit" Click="MenuItem_Exit_Click" />
+                <ContextMenu Background="white">
+                    <MenuItem Header="open" Click="MenuItem_Open_Click"/>
+                    <MenuItem Header="exit" Click="MenuItem_Exit_Click" />
                 </ContextMenu>
             </tb:TaskbarIcon.ContextMenu>
         </tb:TaskbarIcon>
