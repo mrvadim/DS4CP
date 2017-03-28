@@ -92,17 +92,17 @@
                                 <RowDefinition/>
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
-                            <CheckBox Content="Start Minimized" HorizontalAlignment="Left">
+                            <CheckBox x:Name="cbStartMin" Content="Start Minimized" HorizontalAlignment="Left">
                                 <CheckBox.ToolTip>
                                     <TextBlock>Start Minimized</TextBlock>
                                 </CheckBox.ToolTip>
                             </CheckBox>
-                            <CheckBox Content="Close Minimizes" HorizontalAlignment="Left" Grid.Row="1">
+                            <CheckBox x:Name="cbCloseMin" Content="Close Minimize" HorizontalAlignment="Left" Grid.Row="1">
                                 <CheckBox.ToolTip>
                                     <TextBlock>Close Minimizes</TextBlock>
                                 </CheckBox.ToolTip>
                             </CheckBox>
-                            <CheckBox Content="Quick Charge" HorizontalAlignment="Left" Grid.Row="2"/>
+                            <CheckBox x:Name="chQuickCharge" Content="Quick Charge" HorizontalAlignment="Left" Grid.Row="2"/>
                             <ComboBox Width="auto" HorizontalAlignment="Left" Grid.Row="3"/>
                         </Grid>
                     </Border>

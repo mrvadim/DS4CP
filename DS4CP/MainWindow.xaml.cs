@@ -21,7 +21,7 @@ namespace DS4CP
         Controllers ctrl = new Controllers();
         ObservableCollection<Controllers> controllers = new ObservableCollection<Controllers>();
         string _message = "message";
-        //string _log = "log";
+        string _log = "log";
 
         public MainWindow()
         {
@@ -38,7 +38,7 @@ namespace DS4CP
             ctrl.Profile = _profiles;
 
             controllers.Add(ctrl);
-            //ReadSettings();
+            cbCloseMin.IsChecked = Convert.ToBoolean(ReadSetting("cbCloseMinimize"));
         }
 
 
@@ -60,7 +60,20 @@ namespace DS4CP
             }
         }
 
-        public void ReadSettings()
+        public string Log
+        {
+            get { return _log; }
+            set
+            {
+                if (_log != value)
+                {
+                    _log = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        public void ReadAllSettings()
         {
             try
             {
@@ -76,15 +89,51 @@ namespace DS4CP
                         Console.WriteLine("key: {0} value: {1}", key, appSettings[key]);
                     }
                 }
-
             }
             catch
             {
                 Console.WriteLine("error read config");
             }
+        }
 
-            //message = ConfigurationManager.AppSettings["setting1"];
+        public string ReadSetting(string key)
+        {
+            try
+            {
+                var appSettings = ConfigurationManager.AppSettings;
+                string result = appSettings[key] ?? "Not Found";
+                return result;
+            }
+            catch (ConfigurationErrorsException)
+            {
+                Console.WriteLine("Error reading app settings");
+                return "false";
+            }
+            
+            
+        }
 
+        static void AddUpdateAppSettings(string key, string value)
+        {
+            try
+            {
+                var configFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                var settings = configFile.AppSettings.Settings;
+                if (settings[key] == null)
+                {
+                    settings.Add(key, value);
+                }
+                else
+                {
+                    settings[key].Value = value;
+                }
+                configFile.Save(ConfigurationSaveMode.Modified);
+                ConfigurationManager.RefreshSection(configFile.AppSettings.SectionInformation.Name);
+            }
+            catch(ConfigurationErrorsException)
+            {
+                Console.WriteLine("Error writing app settings");
+            }
         }
 
         private void OnClickAbout(object sender, RoutedEventArgs e)
@@ -94,6 +143,7 @@ namespace DS4CP
             ShowStandardBalloon("hello");
             _profiles.Add("new item");
             this.Message = "fdsfdsfsfd";
+            //AddUpdateAppSettings("cbCloseMinimize", "true");
             Console.WriteLine(_profiles.Count);
         }
 
