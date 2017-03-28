@@ -100,7 +100,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Classes\Controllers.cs" />
-    <Compile Include="Classes\MyNotifyPropChanged.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

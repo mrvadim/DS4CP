@@ -3,7 +3,9 @@ using Hardcodet.Wpf.TaskbarNotification;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Configuration;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -13,51 +15,48 @@ namespace DS4CP
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
-        public string message;
-        List<string> mProfiles = new List<string>();
+        List<string> _profiles = new List<string>();
         Controllers ctrl = new Controllers();
-        //private TaskbarIcon tb;
+        ObservableCollection<Controllers> controllers = new ObservableCollection<Controllers>();
+        string _message = "message";
+        //string _log = "log";
 
         public MainWindow()
         {
             InitializeComponent();
             DataContext = this;
 
-            //tb = (TaskbarIcon)FindResource("/Resources/NotifyIcon");
-
-            MProfiles.Add("DEFAULT");
-            MProfiles.Add("NEW");
+            _profiles.Add("DEFAULT");
+            _profiles.Add("NEW");
 
             ctrl.Id = "00:00:00:00:00:00";
             ctrl.Status = "CONNECTED";
             ctrl.Battery = 90;
             ctrl.Color = Brushes.Aqua;
-            ctrl.Profile = MProfiles;
+            ctrl.Profile = _profiles;
 
-            mControllers.Add(ctrl);
-
-            ReadSettings();
+            controllers.Add(ctrl);
+            //ReadSettings();
         }
 
-        ObservableCollection<Controllers> mControllers = new ObservableCollection<Controllers>();
+
         public ObservableCollection<Controllers> Controllers
         {
-            get { return mControllers; }
+            get { return controllers; }
         }
 
         public string Message
         {
-            get { return message; }
-        }
-
-        public List<string> MProfiles
-        {
-            get { return mProfiles; }
+            get { return _message; }
             set
             {
-                mProfiles = value;
+                if (_message != value)
+                {
+                    _message = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
@@ -84,7 +83,7 @@ namespace DS4CP
                 Console.WriteLine("error read config");
             }
 
-            message = ConfigurationManager.AppSettings["setting1"];
+            //message = ConfigurationManager.AppSettings["setting1"];
 
         }
 
@@ -93,22 +92,20 @@ namespace DS4CP
             ctrl.Id = "ma:c1:23:45:67:89";
             ctrl.Status = "disconnected";
             ShowStandardBalloon("hello");
-
+            _profiles.Add("new item");
+            this.Message = "fdsfdsfsfd";
+            Console.WriteLine(_profiles.Count);
         }
 
         private void ShowStandardBalloon(string text)
         {
             string title = "DS4 Control Panel";
-            
-
-            //show balloon with built-in icon
             MyNotifyIcon.ShowBalloonTip(title, text, BalloonIcon.Info);
             //MyNotifyIcon.ShowBalloonTip(title, text, BalloonIcon.Warning);
             //MyNotifyIcon.ShowBalloonTip(title, text, BalloonIcon.Error);
 
             //hide balloon
             //MyNotifyIcon.HideBalloonTip();
-
         }
 
         private void MenuItem_Open_Click(object sender, RoutedEventArgs e)
@@ -138,16 +135,24 @@ namespace DS4CP
         {
             Console.WriteLine("OnStateChanged");
             if (WindowState == WindowState.Minimized) Hide();
-
         }
 
-        
+        public event PropertyChangedEventHandler PropertyChanged;
 
+        public void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
     }
 
 
     public class ShowMessageCommand : ICommand
     {
+        public event EventHandler CanExecuteChanged;
+
         public void Execute(object parameter)
         {
             Application.Current.MainWindow.Show();
@@ -158,8 +163,6 @@ namespace DS4CP
         {
             return true;
         }
-
-        public event EventHandler CanExecuteChanged;
     }
 
 

@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows.Media;
 
 namespace DS4CP.Classes
 {
-    public class Controllers : MyNotifyPropChanged
+    public class Controllers : INotifyPropertyChanged
     {
         private string id { get; set; }
         public string Id
@@ -75,8 +78,16 @@ namespace DS4CP.Classes
             }
         }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
 
-
+     
 
         /*public Controllers(string Id, string Status, int Battery, Brush Color, List<string> Profile)
         {
