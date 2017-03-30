@@ -20,12 +20,14 @@ namespace DS4CP
         List<string> _profiles = new List<string>();
         Controllers ctrl = new Controllers();
         ObservableCollection<Controllers> controllers = new ObservableCollection<Controllers>();
-        string _message = "message";
+        private string _message = "message";
         string _log = "log";
+        AppConfig _config = new AppConfig();
 
         public MainWindow()
         {
             InitializeComponent();
+            _config.InitSettings();
             DataContext = this;
 
             _profiles.Add("DEFAULT");
@@ -38,7 +40,11 @@ namespace DS4CP
             ctrl.Profile = _profiles;
 
             controllers.Add(ctrl);
-            cbCloseMin.IsChecked = Convert.ToBoolean(ReadSetting("cbCloseMinimize"));
+
+            //Console.WriteLine(_config.ReadSetting("cbCloseMinimize"));
+
+            Message = _config.InitSettings();
+            cbCloseMinimize.IsChecked = Convert.ToBoolean(_config.ReadSetting("cbCloseMinimize"));
         }
 
 
@@ -73,76 +79,13 @@ namespace DS4CP
             }
         }
 
-        public void ReadAllSettings()
-        {
-            try
-            {
-                var appSettings = ConfigurationManager.AppSettings;
-                if (appSettings.Count == 0)
-                {
-                    Console.WriteLine("config empty");
-                }
-                else
-                {
-                    foreach (var key in appSettings.AllKeys)
-                    {
-                        Console.WriteLine("key: {0} value: {1}", key, appSettings[key]);
-                    }
-                }
-            }
-            catch
-            {
-                Console.WriteLine("error read config");
-            }
-        }
-
-        public string ReadSetting(string key)
-        {
-            try
-            {
-                var appSettings = ConfigurationManager.AppSettings;
-                string result = appSettings[key] ?? "Not Found";
-                return result;
-            }
-            catch (ConfigurationErrorsException)
-            {
-                Console.WriteLine("Error reading app settings");
-                return "false";
-            }
-            
-            
-        }
-
-        static void AddUpdateAppSettings(string key, string value)
-        {
-            try
-            {
-                var configFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-                var settings = configFile.AppSettings.Settings;
-                if (settings[key] == null)
-                {
-                    settings.Add(key, value);
-                }
-                else
-                {
-                    settings[key].Value = value;
-                }
-                configFile.Save(ConfigurationSaveMode.Modified);
-                ConfigurationManager.RefreshSection(configFile.AppSettings.SectionInformation.Name);
-            }
-            catch(ConfigurationErrorsException)
-            {
-                Console.WriteLine("Error writing app settings");
-            }
-        }
-
         private void OnClickAbout(object sender, RoutedEventArgs e)
         {
             ctrl.Id = "ma:c1:23:45:67:89";
             ctrl.Status = "disconnected";
             ShowStandardBalloon("hello");
             _profiles.Add("new item");
-            this.Message = "fdsfdsfsfd";
+            Message = "fdsfdsfsfd";
             //AddUpdateAppSettings("cbCloseMinimize", "true");
             Console.WriteLine(_profiles.Count);
         }
@@ -171,14 +114,27 @@ namespace DS4CP
 
         private void Window_Closed(object sender, EventArgs e)
         {
+
+            Console.WriteLine("Window_Closed");
+
             WindowState = WindowState.Minimized;
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            e.Cancel = true;
-            WindowState = WindowState.Minimized;
-            Hide();
+            Console.WriteLine("Window_Closing");
+            if (cbCloseMinimize.IsChecked ?? true)
+            {
+                Console.WriteLine("cbCloseMinimize");
+                e.Cancel = true;
+                WindowState = WindowState.Minimized;
+                Hide();
+            }
+            else
+            {
+                Application.Current.Shutdown();
+            }
+            
         }
 
         protected override void OnStateChanged(EventArgs e)
@@ -196,24 +152,109 @@ namespace DS4CP
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+
+        private void cbCloseMinChecked(object sender, RoutedEventArgs e)
+        {
+            Message = _config.AddUpdateAppSettings("cbCloseMinimize", "true");
+        }
+
+        private void cbCloseMinUnChecked(object sender, RoutedEventArgs e)
+        {
+            Message = _config.AddUpdateAppSettings("cbCloseMinimize", "false");
+        }
     }
 
 
     public class ShowMessageCommand : ICommand
     {
         public event EventHandler CanExecuteChanged;
-
         public void Execute(object parameter)
         {
             Application.Current.MainWindow.Show();
             Application.Current.MainWindow.WindowState = WindowState.Normal;
+            Application.Current.MainWindow.Activate();
         }
-
         public bool CanExecute(object parameter)
         {
             return true;
         }
     }
 
+    public class AppConfig
+    {
+        public string InitSettings()
+        {
+            var appSettings = ConfigurationManager.AppSettings;
+            string message = "settings exist";
+            if (appSettings.Count == 0)
+            {
+                message = "init settings";
+                AddUpdateAppSettings("cbCloseMinimize", "false");
+            }
+            return message;
+        }
+        public void ReadAllSettings()
+        {
+            try
+            {
+                var appSettings = ConfigurationManager.AppSettings;
+                if (appSettings.Count == 0)
+                {
+                    Console.WriteLine("empty");
+                }
+                else
+                {
+                    foreach (var key in appSettings.AllKeys)
+                    {
+                        Console.WriteLine("key: {0} value: {1}", key, appSettings[key]);
+                    }
+                }
+            }
+            catch
+            {
+                Console.WriteLine("error");
+            }
+        }
+        public string ReadSetting(string key)
+        {
+            try
+            {
+                var appSettings = ConfigurationManager.AppSettings;
+                string result = appSettings[key] ?? "error";
+                return result;
+            }
+            catch (ConfigurationErrorsException)
+            {
+                return "error read settings";
+            }
+        }
+        public string AddUpdateAppSettings(string key, string value)
+        {
+            try
+            {
+                var configFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                var settings = configFile.AppSettings.Settings;
+                string result;
+                if (settings[key] == null)
+                {
+                    settings.Add(key, value);
+                    result = "settings added";
 
+                }
+                else
+                {
+                    settings[key].Value = value;
+                    result = "settings updated";
+                }
+                configFile.Save(ConfigurationSaveMode.Modified);
+                ConfigurationManager.RefreshSection(configFile.AppSettings.SectionInformation.Name);
+                return result;
+            }
+            catch (ConfigurationErrorsException)
+            {
+                Console.WriteLine("error");
+                return "error to update settings";
+            }
+        }
+    }
 }

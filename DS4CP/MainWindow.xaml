@@ -97,7 +97,7 @@
                                     <TextBlock>Start Minimized</TextBlock>
                                 </CheckBox.ToolTip>
                             </CheckBox>
-                            <CheckBox x:Name="cbCloseMin" Content="Close Minimize" HorizontalAlignment="Left" Grid.Row="1">
+                            <CheckBox x:Name="cbCloseMinimize" Content="Close Minimize" HorizontalAlignment="Left" Grid.Row="1" Checked="cbCloseMinChecked" Unchecked="cbCloseMinUnChecked">
                                 <CheckBox.ToolTip>
                                     <TextBlock>Close Minimizes</TextBlock>
                                 </CheckBox.ToolTip>
