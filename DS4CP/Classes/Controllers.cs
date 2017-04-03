@@ -87,8 +87,6 @@ namespace DS4CP.Classes
             }
         }
 
-     
-
         /*public Controllers(string Id, string Status, int Battery, Brush Color, List<string> Profile)
         {
             this.Id = Id;

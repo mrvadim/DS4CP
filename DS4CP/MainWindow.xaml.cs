@@ -46,13 +46,10 @@ namespace DS4CP
             Message = _config.InitSettings();
             cbCloseMinimize.IsChecked = Convert.ToBoolean(_config.ReadSetting("cbCloseMinimize"));
         }
-
-
         public ObservableCollection<Controllers> Controllers
         {
             get { return controllers; }
         }
-
         public string Message
         {
             get { return _message; }
@@ -65,7 +62,6 @@ namespace DS4CP
                 }
             }
         }
-
         public string Log
         {
             get { return _log; }
@@ -78,7 +74,6 @@ namespace DS4CP
                 }
             }
         }
-
         private void OnClickAbout(object sender, RoutedEventArgs e)
         {
             ctrl.Id = "ma:c1:23:45:67:89";
@@ -89,7 +84,6 @@ namespace DS4CP
             //AddUpdateAppSettings("cbCloseMinimize", "true");
             Console.WriteLine(_profiles.Count);
         }
-
         private void ShowStandardBalloon(string text)
         {
             string title = "DS4 Control Panel";
@@ -100,18 +94,15 @@ namespace DS4CP
             //hide balloon
             //MyNotifyIcon.HideBalloonTip();
         }
-
         private void MenuItem_Open_Click(object sender, RoutedEventArgs e)
         {
             if (WindowState == WindowState.Minimized) Show();
             WindowState = WindowState.Normal;
         }
-
         private void MenuItem_Exit_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
         }
-
         private void Window_Closed(object sender, EventArgs e)
         {
 
@@ -119,7 +110,6 @@ namespace DS4CP
 
             WindowState = WindowState.Minimized;
         }
-
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             Console.WriteLine("Window_Closing");
@@ -136,15 +126,12 @@ namespace DS4CP
             }
             
         }
-
         protected override void OnStateChanged(EventArgs e)
         {
             Console.WriteLine("OnStateChanged");
             if (WindowState == WindowState.Minimized) Hide();
         }
-
         public event PropertyChangedEventHandler PropertyChanged;
-
         public void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {
             if (PropertyChanged != null)
@@ -152,19 +139,15 @@ namespace DS4CP
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
-
         private void cbCloseMinChecked(object sender, RoutedEventArgs e)
         {
             Message = _config.AddUpdateAppSettings("cbCloseMinimize", "true");
         }
-
         private void cbCloseMinUnChecked(object sender, RoutedEventArgs e)
         {
             Message = _config.AddUpdateAppSettings("cbCloseMinimize", "false");
         }
     }
-
-
     public class ShowMessageCommand : ICommand
     {
         public event EventHandler CanExecuteChanged;
@@ -179,7 +162,6 @@ namespace DS4CP
             return true;
         }
     }
-
     public class AppConfig
     {
         public string InitSettings()

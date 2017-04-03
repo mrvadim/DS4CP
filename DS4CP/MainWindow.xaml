@@ -31,7 +31,8 @@
                         <RowDefinition Height="6*"/>
                         <RowDefinition Height="1*"/>
                     </Grid.RowDefinitions>
-                    <ListView ItemsSource="{Binding Controllers}" Margin="0" Grid.Row="0">
+                    <!--<TextBlock TextWrapping="Wrap" Text="Controllers not connected" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0"/>-->
+                    <ListView Visibility="Visible" ItemsSource="{Binding Controllers}" Margin="5,5,5,0" Grid.Row="0" Panel.ZIndex="10">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
                                 <Setter Property="HorizontalContentAlignment" Value="Center"/>
@@ -67,7 +68,11 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <Button Content="About" Name="btnAbout" Width="100" HorizontalAlignment="Right" Height="20" Grid.Row="1" Click="OnClickAbout"></Button>
+                    <Border Grid.Row="0" Background="White" Panel.ZIndex="14" Visibility="Hidden">
+                        <TextBlock TextWrapping="Wrap" Text="Controllers not connected" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </Border>
+                    
+                    <Button Content="About" Name="btnAbout" Width="100" HorizontalAlignment="Right" Margin="5,0,5,0" Height="20" Grid.Row="1" Click="OnClickAbout"></Button>
                 </Grid>
             </TabItem>
             <TabItem Header="Settings">
