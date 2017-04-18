@@ -108,6 +108,11 @@ namespace DS4CP
             Visible = !Visible;
         }
 
+        public void ControllerConnected()
+        {
+
+        }
+
 
         private void ShowStandardBalloon(string text)
         {

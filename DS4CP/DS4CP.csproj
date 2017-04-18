@@ -100,6 +100,17 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Classes\Controllers.cs" />
+    <Compile Include="Classes\DS4Device.cs" />
+    <Compile Include="Classes\DS4SixAxis.cs" />
+    <Compile Include="Classes\DS4State.cs" />
+    <Compile Include="Classes\DS4StateExposed.cs" />
+    <Compile Include="Classes\DS4Touchpad.cs" />
+    <Compile Include="Classes\Extensions.cs" />
+    <Compile Include="Classes\HidDevice.cs" />
+    <Compile Include="Classes\HidDeviceAttributes.cs" />
+    <Compile Include="Classes\HidDeviceCapabilities.cs" />
+    <Compile Include="Classes\HidDevices.cs" />
+    <Compile Include="Classes\NativeMethods.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -123,6 +134,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="ClassDiagram1.cd" />
     <None Include="DS4CP_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
