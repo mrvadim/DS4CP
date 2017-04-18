@@ -16,6 +16,9 @@
         ShowInTaskbar="False" 
         Icon="Resources/app.ico" >
 
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </Window.Resources>
     <Grid>
         <Grid.Resources>
             <local:ShowMessageCommand x:Key="ShowWindow"></local:ShowMessageCommand>
@@ -31,7 +34,6 @@
                         <RowDefinition Height="6*"/>
                         <RowDefinition Height="1*"/>
                     </Grid.RowDefinitions>
-                    <!--<TextBlock TextWrapping="Wrap" Text="Controllers not connected" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0"/>-->
                     <ListView Visibility="Visible" ItemsSource="{Binding Controllers}" Margin="5,5,5,0" Grid.Row="0" Panel.ZIndex="10">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
@@ -68,10 +70,10 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <Border Grid.Row="0" Background="White" Panel.ZIndex="14" Visibility="Hidden">
+                    <Border Grid.Row="0" Background="White" Panel.ZIndex="14" Visibility="{Binding Visible, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <TextBlock TextWrapping="Wrap" Text="Controllers not connected" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" />
                     </Border>
-                    
+
                     <Button Content="About" Name="btnAbout" Width="100" HorizontalAlignment="Right" Margin="5,0,5,0" Height="20" Grid.Row="1" Click="OnClickAbout"></Button>
                 </Grid>
             </TabItem>
@@ -119,7 +121,7 @@
                 </Grid>
             </TabItem>
         </TabControl>
-        
+
         <Label Content="{Binding Message}"
                HorizontalAlignment="Left" 
                VerticalAlignment="Center" 
@@ -136,7 +138,4 @@
         </tb:TaskbarIcon>
 
     </Grid>
-
-
-
 </Window>

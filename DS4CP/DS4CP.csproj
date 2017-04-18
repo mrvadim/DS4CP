@@ -53,7 +53,7 @@
     <ApplicationIcon>Resources\app.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>8442A1C512B64942C707AB75F5A351E8BAD94458</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>8596FED79D01C0F295BAA72FE033EBC8503ED366</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestKeyFile>DS4CP_TemporaryKey.pfx</ManifestKeyFile>
@@ -123,6 +123,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="DS4CP_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

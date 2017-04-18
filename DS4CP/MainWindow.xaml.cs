@@ -19,9 +19,6 @@ namespace DS4CP
     {
         List<string> _profiles = new List<string>();
         Controllers ctrl = new Controllers();
-        ObservableCollection<Controllers> controllers = new ObservableCollection<Controllers>();
-        private string _message = "message";
-        string _log = "log";
         AppConfig _config = new AppConfig();
 
         public MainWindow()
@@ -29,6 +26,7 @@ namespace DS4CP
             InitializeComponent();
             _config.InitSettings();
             DataContext = this;
+            Visible = false;
 
             _profiles.Add("DEFAULT");
             _profiles.Add("NEW");
@@ -41,15 +39,19 @@ namespace DS4CP
 
             controllers.Add(ctrl);
 
-            //Console.WriteLine(_config.ReadSetting("cbCloseMinimize"));
-
             Message = _config.InitSettings();
             cbCloseMinimize.IsChecked = Convert.ToBoolean(_config.ReadSetting("cbCloseMinimize"));
         }
+
+        //collection
+        private ObservableCollection<Controllers> controllers = new ObservableCollection<Controllers>();
         public ObservableCollection<Controllers> Controllers
         {
             get { return controllers; }
         }
+
+        //message
+        private string _message = "message";
         public string Message
         {
             get { return _message; }
@@ -62,6 +64,9 @@ namespace DS4CP
                 }
             }
         }
+
+        //log
+        private string _log = "log";
         public string Log
         {
             get { return _log; }
@@ -74,16 +79,36 @@ namespace DS4CP
                 }
             }
         }
+
+        //visible
+        private bool isVisible;
+        public bool Visible
+        {
+            get { return isVisible; }
+            set
+            {
+                if (isVisible != value)
+                {
+                    isVisible = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        //button About
         private void OnClickAbout(object sender, RoutedEventArgs e)
         {
-            ctrl.Id = "ma:c1:23:45:67:89";
-            ctrl.Status = "disconnected";
-            ShowStandardBalloon("hello");
-            _profiles.Add("new item");
-            Message = "fdsfdsfsfd";
+            //ctrl.Id = "ma:c1:23:45:67:89";
+            //ctrl.Status = "disconnected";
+            //ShowStandardBalloon("hello");
+            //_profiles.Add("new item");
+            //Message = "fdsfdsfsfd";
             //AddUpdateAppSettings("cbCloseMinimize", "true");
             Console.WriteLine(_profiles.Count);
+            Visible = !Visible;
         }
+
+
         private void ShowStandardBalloon(string text)
         {
             string title = "DS4 Control Panel";
@@ -94,6 +119,7 @@ namespace DS4CP
             //hide balloon
             //MyNotifyIcon.HideBalloonTip();
         }
+
         private void MenuItem_Open_Click(object sender, RoutedEventArgs e)
         {
             if (WindowState == WindowState.Minimized) Show();
@@ -103,6 +129,7 @@ namespace DS4CP
         {
             Application.Current.Shutdown();
         }
+
         private void Window_Closed(object sender, EventArgs e)
         {
 
@@ -131,14 +158,7 @@ namespace DS4CP
             Console.WriteLine("OnStateChanged");
             if (WindowState == WindowState.Minimized) Hide();
         }
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
+        
         private void cbCloseMinChecked(object sender, RoutedEventArgs e)
         {
             Message = _config.AddUpdateAppSettings("cbCloseMinimize", "true");
@@ -147,7 +167,19 @@ namespace DS4CP
         {
             Message = _config.AddUpdateAppSettings("cbCloseMinimize", "false");
         }
+
+        //inotify event
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
     }
+
+    //double-click system tray
     public class ShowMessageCommand : ICommand
     {
         public event EventHandler CanExecuteChanged;
@@ -162,6 +194,8 @@ namespace DS4CP
             return true;
         }
     }
+
+    //load-save app.config
     public class AppConfig
     {
         public string InitSettings()
